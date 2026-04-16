@@ -10,14 +10,23 @@ extern Job* active_jobs[1000];
 int global_job_id = 1;
 
 void print_menu() {
-    printf("\n============================================\n");
-    printf("      ADAPTIVE TASK SCHEDULER MENU\n");
-    printf("============================================\n");
-    printf("1-9. Run Individual Load (Various Classes)\n");
-    printf("B.   Competitive Benchmark (Naive vs AI)\n");
-    printf("S.   High-Concurrency Stress Test\n");
-    printf("0.   Shutdown Environment & Exit\n");
-    printf("--------------------------------------------\n");
+    printf("\n=========================================================\n");
+    printf("           ADAPTIVE TASK SCHEDULER: DASHBOARD\n");
+    printf("=========================================================\n");
+    printf(" 1.  File Copy          -> [CLASS_IO_BOUND]\n");
+    printf(" 2.  File Search        -> [CLASS_DIR_TRAVERSAL]\n");
+    printf(" 3.  Process Monitor    -> [CLASS_SYSTEM_MONITOR]\n");
+    printf(" 4.  Log Analysis       -> [CLASS_CPU_BOUND]\n");
+    printf(" 5.  Data Compression   -> [CLASS_CPU_BOUND]\n");
+    printf(" 6.  Disk Cleanup       -> [CLASS_DIR_TRAVERSAL]\n");
+    printf(" 7.  Media Indexing     -> [CLASS_DIR_TRAVERSAL]\n");
+    printf(" 8.  Backup             -> [CLASS_IO_BOUND]\n");
+    printf(" 9.  System Health      -> [CLASS_SYSTEM_MONITOR]\n");
+    printf("---------------------------------------------------------\n");
+    printf(" B.  Competitive Benchmark (AI vs Naive)\n");
+    printf(" S.  High-Concurrency Stress Test (Random Load)\n");
+    printf(" 0.  Shutdown Environment & Exit\n");
+    printf("---------------------------------------------------------\n");
     printf("Enter selection: ");
 }
 
@@ -58,9 +67,24 @@ void process_rounds(const char* type, int workload, int rounds, RunMode mode) {
 
 void run_benchmark() {
     char type[50];
-    int workload, rounds;
-    printf("Enter Class/Type to Benchmark (e.g. CPU_BOUND): ");
-    scanf("%s", type);
+    int workload, rounds, class_choice;
+    
+    printf("\nSelect Workload Class to Benchmark:\n");
+    printf("1. IO_BOUND\n");
+    printf("2. CPU_BOUND\n");
+    printf("3. DIR_TRAVERSAL\n");
+    printf("4. SYSTEM_MONITOR\n");
+    printf("Selection: ");
+    scanf("%d", &class_choice);
+    
+    switch(class_choice) {
+        case 1: strcpy(type, "IO_BOUND"); break;
+        case 2: strcpy(type, "CPU_BOUND"); break;
+        case 3: strcpy(type, "DIR_TRAVERSAL"); break;
+        case 4: strcpy(type, "SYSTEM_MONITOR"); break;
+        default: strcpy(type, "UNKNOWN"); break;
+    }
+
     printf("Enter workload size: ");
     scanf("%d", &workload);
     printf("Enter rounds for profiling: ");
