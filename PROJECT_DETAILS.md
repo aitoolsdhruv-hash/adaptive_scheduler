@@ -15,6 +15,10 @@ The system follows a modular **Producer-Consumer-Dispatcher** model.
 - **The Decomposer (`src/decomposer.c`)**: Partitions workloads into discrete ranges. It is **Class-Aware**, meaning it enforces natural parallel limits (e.g., capping IO-Bound tasks to 4 threads to prevent disk thrashing).
 - **The AI Model (`src/ai_model.c`)**: Implements an **Adaptive Heuristic Learning** engine. It maps incoming process names to `WorkloadClasses` and manages statistical profiles based on those behaviors.
 - **The Executor (`src/executor.c`)**: Interfaces with the OS hardware using POSIX system calls (I/O, directory traversal).
+- **The Utility Layer (`src/utils.c`)**: [NEW] Consolidates all global data, thread-safe synchronization primitives (Mutexes), and high-precision timing functions for consistent state management across modules.
+
+### 2.2 Functional Hardening
+The system now includes a standalone logic verification layer (`src/unit_tests.c`) that performs automated assertions on the AI's mathematical decisions and ensures the Decomposer produces non-overlapping, contiguous ranges for multi-threaded tasks.
 
 ## 3. The "AI" Logic: Behavioral Generalization
 The scheduler uses a sophisticated feedback mechanism that generalizes learning across the system.

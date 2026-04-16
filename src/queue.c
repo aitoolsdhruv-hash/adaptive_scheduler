@@ -1,14 +1,5 @@
 #include "../include/scheduler.h"
 
-Job* job_queue[MAX_QUEUE_SIZE];
-int queue_head = 0;
-int queue_tail = 0;
-int queue_count = 0;
-
-pthread_mutex_t queue_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t queue_cond = PTHREAD_COND_INITIALIZER;
-pthread_cond_t queue_full_cond = PTHREAD_COND_INITIALIZER;
-
 void init_queue() {
     queue_head = 0;
     queue_tail = 0;

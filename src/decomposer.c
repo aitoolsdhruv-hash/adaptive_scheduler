@@ -21,8 +21,8 @@ Subtask* decompose(Job* job, int n) {
         subtasks[i].subtask_id  = i;
         subtasks[i].range_start = i * chunk;
         subtasks[i].range_end   = (i == n - 1)
-                                  ? job->workload_size
-                                  : (i + 1) * chunk;
+                                  ? job->workload_size - 1
+                                  : (i + 1) * chunk - 1;
         strcpy(subtasks[i].process_type, job->process_type);
     }
     

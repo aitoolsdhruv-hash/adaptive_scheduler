@@ -1,8 +1,6 @@
 #include "../include/scheduler.h"
 #include <unistd.h>
 
-RunMode current_mode = MODE_ADAPTIVE;
-
 void assign_to_threads(Job* j, Subtask* subtasks, int n) {
     pthread_mutex_lock(&pool_mutex);
     int assigned = 0;

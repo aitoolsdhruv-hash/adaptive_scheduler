@@ -2,7 +2,6 @@
 
 AIProfile profiles[MAX_AI_PROFILES];
 int num_profiles = 0;
-pthread_mutex_t ai_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #define MIN_THREADS(a, b) ((a) < (b) ? (a) : (b))
 

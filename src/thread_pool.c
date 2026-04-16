@@ -1,14 +1,5 @@
 #include "../include/scheduler.h"
 #include <unistd.h>
-
-WorkerThread pool[MAX_THREADS];
-
-pthread_mutex_t pool_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t dispatcher_cond = PTHREAD_COND_INITIALIZER;
-
-extern Job* active_jobs[100]; // Defined in main
-pthread_mutex_t jobs_mutex = PTHREAD_MUTEX_INITIALIZER;
-
 #include <sys/time.h>
 
 void execute_subtask(Subtask* s) {
@@ -30,7 +21,7 @@ void merge_result(Subtask* s) {
     // In our simplified test, we just update via a global reference or pass it.
     // For Phase 2 we assume the parent Job pointer logic is handled in active_jobs
     Job* job = NULL;
-    for(int i=0; i<100; i++) {
+    for(int i=0; i<1000; i++) {
         if(active_jobs[i] && active_jobs[i]->job_id == s->job_id) {
             job = active_jobs[i];
             break;

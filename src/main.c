@@ -4,14 +4,10 @@
 #include <stdio.h>
 #include <getopt.h>
 
-Job* active_jobs[1000];
-int global_job_id = 1;
+#include <getopt.h>
 
-long current_time_ms() {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-}
+extern Job* active_jobs[1000];
+int global_job_id = 1;
 
 void print_menu() {
     printf("\n============================================\n");
@@ -153,9 +149,18 @@ int main(int argc, char** argv) {
     init_thread_pool();
     start_dispatcher();
 
+#ifdef AUTO_STRESS
+    run_stress_test();
+    exit(0);
+#endif
+
     if (argc > 1) {
         run_cli(argc, argv);
     }
+
+#ifdef AUTO_DASHBOARD
+    // Standard menu behavior
+#endif
 
     char choice[10];
     while (1) {

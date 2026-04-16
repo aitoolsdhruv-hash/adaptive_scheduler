@@ -89,6 +89,12 @@ extern pthread_mutex_t jobs_mutex;
 extern pthread_cond_t queue_full_cond;
 
 extern WorkerThread pool[MAX_THREADS];
+extern Job* active_jobs[1000];
+
+extern Job* job_queue[MAX_QUEUE_SIZE];
+extern int queue_head;
+extern int queue_tail;
+extern int queue_count;
 
 // Utility
 long current_time_ms(void);

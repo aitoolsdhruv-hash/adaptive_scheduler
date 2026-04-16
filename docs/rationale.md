@@ -33,3 +33,9 @@ Most academic projects simply drop new jobs if a queue is full. This is unrealis
 - No data is lost.
 - The system exerts "Backpressure" on the job generator.
 - Threads are fully utilized before the producer is allowed to continue, maximizing throughput.
+
+## 5. Structural Modularization (`utils.c`)
+In Version 2.0, we migrated all global state (Mutexes, CondVars, and Job Data) to a centralized utility module. This provides:
+- **Linker Safety**: Prevents "Multiple Definition" errors when compiling separate test binaries.
+- **Architectural Clarity**: Decouples functional logic (like AI math) from low-level OS synchronization, mirroring the design of production-grade microkernels.
+
