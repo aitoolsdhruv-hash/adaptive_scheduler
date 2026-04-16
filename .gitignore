@@ -1,0 +1,21 @@
+# Compilations
+bin/
+obj/
+*.exe
+*.o
+
+# Mock Data
+data/
+
+# Environment
+w64devkit/
+w64devkit.exe
+
+# Logs
+log.txt
+output.txt
+output_utf8.txt
+
+# OS/System
+.DS_Store
+Thumbs.db
