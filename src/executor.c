@@ -2,18 +2,18 @@
 
 void execute_file_copy(Subtask* s) {
     char src_chunk[256], dst_chunk[256];
-    sprintf(src_chunk, "data/source_%d.bin", s->subtask_id);
-    sprintf(dst_chunk, "data/dest_%d.bin", s->subtask_id);
+    snprintf(src_chunk, sizeof(src_chunk), "data/source_%d.bin", s->subtask_id);
+    snprintf(dst_chunk, sizeof(dst_chunk), "data/dest_%d.bin", s->subtask_id);
 
     int src_fd = open(src_chunk, O_RDONLY);
     if (src_fd < 0) {
-        printf("   [Error] Could not open %s\n", src_chunk);
+        printf("   [Error] Could not open source %s: %s\n", src_chunk, strerror(errno));
         return;
     }
 
     int dst_fd = open(dst_chunk, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     if (dst_fd < 0) {
-         printf("   [Error] Could not create %s\n", dst_chunk);
+         printf("   [Error] Could not create destination %s: %s\n", dst_chunk, strerror(errno));
          close(src_fd);
          return;
     }
@@ -53,14 +53,15 @@ void execute_file_search(Subtask* s) {
 
 // Fallback logic for Windows MinGW execution (Fake /proc hierarchy in /data/)
 void execute_process_monitor(Subtask* s) {
+    (void)s;
     DIR* proc = opendir("data/proc");
     if (!proc) return;
 
     struct dirent* entry;
     while ((entry = readdir(proc)) != NULL) {
         if (isdigit(entry->d_name[0])) { // PID folders
-            char path[256];
-            sprintf(path, "data/proc/%s/status", entry->d_name);
+            char path[512];
+            snprintf(path, sizeof(path), "data/proc/%s/status", entry->d_name);
             
             // Only process assigned resources based on range
             // (CPU, RAM, Disk split as subtasks in our mock)

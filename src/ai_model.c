@@ -7,13 +7,13 @@ int num_profiles = 0;
 
 // Classification Logic
 WorkloadClass get_workload_class(const char* type) {
-    if (strcmp(type, "File Copy") == 0 || strcmp(type, "Backup") == 0) 
+    if (strcmp(type, "File Copy") == 0 || strcmp(type, "Backup") == 0 || strcmp(type, "IO_BOUND") == 0) 
         return CLASS_IO_BOUND;
-    if (strcmp(type, "Log Analysis") == 0 || strcmp(type, "Data Compression") == 0) 
+    if (strcmp(type, "Log Analysis") == 0 || strcmp(type, "Data Compression") == 0 || strcmp(type, "CPU_BOUND") == 0) 
         return CLASS_CPU_BOUND;
-    if (strcmp(type, "File Search") == 0 || strcmp(type, "Disk Cleanup") == 0 || strcmp(type, "Media Indexing") == 0) 
+    if (strcmp(type, "File Search") == 0 || strcmp(type, "Disk Cleanup") == 0 || strcmp(type, "Media Indexing") == 0 || strcmp(type, "DIR_TRAVERSAL") == 0) 
         return CLASS_DIR_TRAVERSAL;
-    if (strcmp(type, "Process Monitor") == 0) 
+    if (strcmp(type, "Process Monitor") == 0 || strcmp(type, "SYSTEM_MONITOR") == 0) 
         return CLASS_SYSTEM_MONITOR;
     return CLASS_UNKNOWN;
 }
@@ -66,10 +66,10 @@ int ai_decide(const char* type, int size, int free_threads, RunMode mode) {
     if (p == NULL) {
         decision = MIN_THREADS(free_threads, DEFAULT_SPLIT);
     } else {
-        // Every 4th run, do controlled exploration (adjacent threads)
-        if (p->total_runs > 0 && p->total_runs % 4 == 0) {
+        // Every 2nd run, do controlled exploration (adjacent threads)
+        if (p->total_runs > 0 && p->total_runs % 2 == 0) {
             // Alternating exploration: try N+1 or N-1
-            int shift = (p->total_runs % 8 == 0) ? 1 : -1;
+            int shift = (p->total_runs % 4 == 0) ? 1 : -1;
             int explore = p->optimal_threads + shift;
             
             // Safety clamping

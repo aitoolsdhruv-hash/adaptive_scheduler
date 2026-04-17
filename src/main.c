@@ -138,7 +138,7 @@ void run_stress_test() {
     while (1) {
         int all_done = 1;
         for (int i = 1; i < global_job_id; i++) {
-            if (active_jobs[i % 1000] && active_jobs[i % 1000]->subtasks_done < active_jobs[i % 1000]->num_subtasks) {
+            if (active_jobs[i % 1000] && (active_jobs[i % 1000]->num_subtasks == 0 || active_jobs[i % 1000]->subtasks_done < active_jobs[i % 1000]->num_subtasks)) {
                 all_done = 0;
                 break;
             }
@@ -172,6 +172,11 @@ int main(int argc, char** argv) {
     init_queue();
     init_thread_pool();
     start_dispatcher();
+
+    char cwd[512];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("[System] Working Directory: %s\n", cwd);
+    }
 
 #ifdef AUTO_STRESS
     run_stress_test();

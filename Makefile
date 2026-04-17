@@ -23,11 +23,11 @@ stress: $(BINDIR)/scheduler_stress.exe
 $(BINDIR)/unit_tests.exe: $(CORE_OBJECTS)
 	$(CC) $(CFLAGS) $(SRCDIR)/unit_tests.c $^ -o $@
 
-$(BINDIR)/scheduler_dashboard.exe: $(CORE_OBJECTS)
-	$(CC) $(CFLAGS) -DAUTO_DASHBOARD $(SRCDIR)/main.c $^ -o $@
+$(BINDIR)/scheduler_dashboard.exe: $(SRCDIR)/main.c $(CORE_OBJECTS)
+	$(CC) $(CFLAGS) -DAUTO_DASHBOARD $(SRCDIR)/main.c $(CORE_OBJECTS) -o $@
 
-$(BINDIR)/scheduler_stress.exe: $(CORE_OBJECTS)
-	$(CC) $(CFLAGS) -DAUTO_STRESS $(SRCDIR)/main.c $^ -o $@
+$(BINDIR)/scheduler_stress.exe: $(SRCDIR)/main.c $(CORE_OBJECTS)
+	$(CC) $(CFLAGS) -DAUTO_STRESS $(SRCDIR)/main.c $(CORE_OBJECTS) -o $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
